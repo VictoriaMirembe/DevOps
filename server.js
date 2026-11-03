@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000;
 const server = http.createServer(async (req, res) => {
   if (req.url === "/health") {
     res.writeHead(200, { "Content-Type": "application/json" });
-    return res.end(JSON.stringify({ status: "Okay" }));
+    return res.end(JSON.stringify({ status: "ok" }));
   }
 
   if (req.url === "/db") {
