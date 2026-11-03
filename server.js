@@ -25,7 +25,15 @@ const server = http.createServer(async (req, res) => {
   res.end("Hello from My DevOps practice app!. This app is running on docker");
 });
 
-server.listen(PORT, () => console.log(`App running on port ${PORT}`));
+// Only start listening when this file is run directly (node server.js),
+// not when a test file imports it.
+if (require.main === module) {
+  server.listen(PORT, () => console.log(`App running on port ${PORT}`));
+  process.on("SIGINT", shutdown);
+  process.on("SIGTERM", shutdown);
+}
+
+module.exports = server;
 
 // Stop the app cleanly when Docker (or Ctrl + C) asks it to stop
 function shutdown() {
@@ -35,5 +43,3 @@ function shutdown() {
     process.exit(0);
   });
 }
-process.on("SIGINT", shutdown);
-process.on("SIGTERM", shutdown);
